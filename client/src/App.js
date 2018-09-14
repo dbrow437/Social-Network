@@ -20,30 +20,33 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperience from "./components/add-credentials/AddExperience";
 import AddEducation from "./components/add-credentials/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+// import NotFound from "./components/not-found/NotFound";
 
 import "./App.css";
 
-//check for Token
+// Check for token
 if (localStorage.jwtToken) {
-  //set auth token header off
+  // Set auth token header auth
   setAuthToken(localStorage.jwtToken);
-  //decode token and get user info and exp
+  // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  // set user and isAuthenicated
+  // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
 
-  //check for expired Token
+  // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
-    //logout users
+    // Logout user
     store.dispatch(logoutUser());
-    //clear current profiles
+    // Clear current Profile
     store.dispatch(clearCurrentProfile());
-
-    //redirect to login
+    // Redirect to login
     window.location.href = "/login";
   }
 }
+
 class App extends Component {
   render() {
     return (
@@ -52,10 +55,11 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Landing} />
-            <Footer />
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
@@ -88,6 +92,7 @@ class App extends Component {
                 />
               </Switch>
             </div>
+            <Footer />
           </div>
         </Router>
       </Provider>

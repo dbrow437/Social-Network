@@ -33,7 +33,7 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
